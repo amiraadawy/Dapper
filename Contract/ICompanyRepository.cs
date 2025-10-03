@@ -1,0 +1,13 @@
+﻿using DapperAsp.Net.Dto;
+using DapperAsp.Net.Enitities;
+
+namespace DapperAsp.Net.Contract
+{
+    public interface ICompanyRepository
+    {
+        public Task<IEnumerable<Company>> GetCompanies();
+        public Task<Company> GetCompany(int id);
+        public Task<Company> CreateCompany(CompanyForcreationDTO company);
+
+    }
+}
