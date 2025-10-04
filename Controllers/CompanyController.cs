@@ -78,6 +78,23 @@ namespace DapperAsp.Net.Controllers
             return Ok(company);
 
         }
+        [HttpPost("CreateMultipleCompanies")]
+        public async Task<IActionResult> CreateMultipleCompanies([FromBody] List<CompanyForcreationDTO> companies)
+        {
+            if (companies == null || !companies.Any())
+                return BadRequest("Company list cannot be empty.");
+
+            try
+            {
+                var createdCompanies = await _companyRepository.CreateMultipleCompany(companies);
+                return Ok(createdCompanies);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
 
     }
 }

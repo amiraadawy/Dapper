@@ -41,6 +41,54 @@ namespace DapperAsp.Net.Repository
             }
         }
 
+        public async Task<List<Company>> CreateMultipleCompany(List<CompanyForcreationDTO> companies)
+        {
+            var query = @"INSERT INTO Companies (Name, Address, Country) 
+                  VALUES (@Name, @Address, @Country);
+                  SELECT CAST(SCOPE_IDENTITY() as int);";
+
+            var createdCompanies = new List<Company>();
+
+            using (var connection = _context.CreateConnection())
+            {
+                 connection.Open();
+
+                using (var transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        foreach (var company in companies)
+                        {
+                            var parameters = new DynamicParameters();
+                            parameters.Add("Name", company.Name);
+                            parameters.Add("Address", company.Address);
+                            parameters.Add("Country", company.Country);
+
+                            
+                            var id = await connection.ExecuteScalarAsync<int>(query, parameters, transaction: transaction);
+
+                            createdCompanies.Add(new Company
+                            {
+                                Id = id,
+                                Name = company.Name,
+                                Address = company.Address,
+                                Country = company.Country
+                            });
+                        }
+
+                        transaction.Commit();
+                    }
+                    catch (Exception)
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
+            }
+
+            return createdCompanies;
+        }
+
         public async Task<bool> DeleteCompany(int id)
         {
             var query = "Delete from companies where Id=@Id;";

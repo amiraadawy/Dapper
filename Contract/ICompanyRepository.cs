@@ -13,6 +13,7 @@ namespace DapperAsp.Net.Contract
         public Task<Company> GetCompanyByEmployeeId(int id);
         public Task<Company> GetMulipleResult(int id);
         public Task<List<Company>> GetMulipleMapping();
+        public Task <List<Company>> CreateMultipleCompany(List<CompanyForcreationDTO> companies);
 
     }
 }
