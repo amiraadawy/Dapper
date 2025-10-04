@@ -61,6 +61,23 @@ namespace DapperAsp.Net.Controllers
                 return NotFound();
             return Ok(company);
         }
+        [HttpGet("GetMulipleResult/{id}")]
+        public async Task<IActionResult> GetMulipleResult(int id)
+        {
+            var company = await _companyRepository.GetMulipleResult(id);
+            if (company == null)
+                return NotFound();
+            return Ok(company);
+        }
+        [HttpGet("Get All Companies Has Employess")]
+        public async Task<IActionResult> MultipleMapping()
+        {
+            var company = await _companyRepository.GetMulipleMapping();
+            if (company == null)
+                return NotFound();
+            return Ok(company);
+
+        }
 
     }
 }

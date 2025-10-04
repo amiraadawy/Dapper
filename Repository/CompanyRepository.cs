@@ -84,6 +84,51 @@ namespace DapperAsp.Net.Repository
             }
         }
 
+        public async Task<List<Company>> GetMulipleMapping()
+        {
+            var query = "SELECT * FROM Companies c JOIN Employees e ON c.Id = e.CompanyId;";
+
+            using (var connection = _context.CreateConnection())
+            {
+                var companyDic = new Dictionary<int, Company>();
+
+                var companies = await connection.QueryAsync<Company, Employee, Company>(
+                    query,
+                    (company, employee) =>
+                    {
+                        if (!companyDic.TryGetValue(company.Id, out var currentCompany))
+                        {
+                            currentCompany = company;
+                            currentCompany.Employees = new List<Employee>(); 
+                            companyDic[company.Id] = currentCompany;
+                        }
+                        currentCompany.Employees.Add(employee);
+                        return currentCompany;
+                    },
+                    splitOn: "Id" 
+                );
+
+                return companyDic.Values.ToList();
+            }
+        }
+
+
+        public async Task<Company> GetMulipleResult(int id)
+        {
+           var query = "Select * From companies where Id=@Id;"
+                + "Select * From Employees where CompanyId=@Id;";
+            var parameters = new DynamicParameters();
+            parameters.Add("Id", id, DbType.Int32, ParameterDirection.Input);
+            using (var connection = _context.CreateConnection())
+            {
+                var result = await connection.QueryMultipleAsync(query, parameters);
+                var company = await result.ReadSingleOrDefaultAsync<Company>();
+                if (company != null)
+                    company.Employees = (await result.ReadAsync<Employee>()).ToList();
+                return company;
+            }
+        }
+
         public async Task<Company> UpdateCompany(int id, CompanyForUpdate company)
         {
             var CompanyFromDb = await GetCompany(id);

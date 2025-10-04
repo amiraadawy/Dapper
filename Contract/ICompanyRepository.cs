@@ -11,6 +11,8 @@ namespace DapperAsp.Net.Contract
         public Task<Company> UpdateCompany(int id, CompanyForUpdate company);
         public Task<bool> DeleteCompany(int id);
         public Task<Company> GetCompanyByEmployeeId(int id);
+        public Task<Company> GetMulipleResult(int id);
+        public Task<List<Company>> GetMulipleMapping();
 
     }
 }
