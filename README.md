@@ -1,36 +1,36 @@
 # 🧾 Dapper ASP.NET Core Web API
 
 ## 🚀 Overview
-مشروع **Web API** مبني باستخدام **ASP.NET Core** و**Dapper** كـ Micro ORM لتنفيذ عمليات الـ CRUD على قاعدة بيانات SQL Server بطريقة خفيفة وسريعة.
+A **Web API** built with **ASP.NET Core** and **Dapper** (Micro ORM) to perform CRUD operations on a SQL Server database efficiently and cleanly.
 
 ---
 
 ## ⚙️ Technologies
 - ASP.NET Core 8  
 - Dapper  
-- SQL Server (LocalDB)  
+- SQL Server  
 - Swagger UI  
 
 ---
 
 ## 🏗️ Features
-- CRUD كامل على الشركات (Company)  
-- عرض الشركات مع الموظفين (**Multiple Mapping**)  
-- استعلامات متعددة النتائج (**Multiple Results**)  
-- تنفيذ **Transactions** لإضافة أكثر من شركة دفعة واحدة  
+- Full CRUD operations for **Companies**  
+- Retrieve companies with employees (**Multiple Mapping**)  
+- Get multiple result sets (**Multiple Results**)  
+- Add multiple companies in one transaction (**Transaction Support**)  
 
 ---
 
-## 🧠 Endpoints
+## 🧠 API Endpoints
 
 | Method | Endpoint | Description |
 |---------|-----------|-------------|
 | **GET** | `/api/company` | Get all companies |
-| **GET** | `/api/company/{id}` | Get company by ID |
-| **POST** | `/api/company` | Create a company |
-| **PUT** | `/api/company/{id}` | Update company |
-| **DELETE** | `/api/company/{id}` | Delete company |
-| **POST** | `/api/company/CreateMultipleCompanies` | Add multiple companies (Transaction) |
+| **GET** | `/api/company/{id}` | Get a company by ID |
+| **POST** | `/api/company` | Create a new company |
+| **PUT** | `/api/company/{id}` | Update a company |
+| **DELETE** | `/api/company/{id}` | Delete a company |
+| **POST** | `/api/company/CreateMultipleCompanies` | Create multiple companies (Transaction) |
 
 ---
 
@@ -59,17 +59,14 @@ CREATE TABLE Employees (
     Position NVARCHAR(100),
     CompanyId INT FOREIGN KEY REFERENCES Companies(Id)
 );
-🧪 Run the Project
-Configure your connection string in appsettings.json
+🧪 How to Run
+Update the connection string in appsettings.json
 
-Run:
+Run the project:
+Open Swagger UI:
+
+https://localhost:7194/swagger
 
 bash
 Copy code
 dotnet run
-Open Swagger:
-
-bash
-Copy code
-https://localhost:7194/swagger
-
