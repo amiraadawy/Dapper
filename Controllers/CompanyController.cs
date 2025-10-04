@@ -53,6 +53,14 @@ namespace DapperAsp.Net.Controllers
                 return NotFound();
             return Ok(" Deleted");
         }
+        [HttpGet("GetCompanyByEmployeeId/{id}")]
+        public async Task<IActionResult> GetCompanyByEmployeeId(int id)
+        {
+            var company = await _companyRepository.GetCompanyByEmployeeId(id);
+            if (company == null)
+                return NotFound();
+            return Ok(company);
+        }
 
     }
 }
