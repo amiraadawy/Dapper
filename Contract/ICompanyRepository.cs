@@ -8,6 +8,8 @@ namespace DapperAsp.Net.Contract
         public Task<IEnumerable<Company>> GetCompanies();
         public Task<Company> GetCompany(int id);
         public Task<Company> CreateCompany(CompanyForcreationDTO company);
+        public Task<Company> UpdateCompany(int id, CompanyForUpdate company);
+        public Task<bool> DeleteCompany(int id);
 
     }
 }

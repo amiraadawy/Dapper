@@ -37,6 +37,22 @@ namespace DapperAsp.Net.Controllers
             //    return BadRequest();
             //return Ok(createdCompany);
         }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateCompany(int id, CompanyForUpdate company)
+        {
+            var updatedCompany = await _companyRepository.UpdateCompany(id, company);
+            if (updatedCompany == null)
+                return NotFound();
+            return Ok(updatedCompany);
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCompany(int id)
+        {
+            var result = await _companyRepository.DeleteCompany(id);
+            if (!result)
+                return NotFound();
+            return Ok(" Deleted");
+        }
 
     }
 }
